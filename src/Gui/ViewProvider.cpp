@@ -341,14 +341,30 @@ void ViewProvider::update(const App::Property* prop)
     if (!isUpdatesEnabled()) {
         return;
     }
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+
+    // #define SHOWHIDE
+
+    #ifdef SHOWHIDE
     bool vis = ViewProvider::isShow();
     if (vis) {
         ViewProvider::hide();
     }
+    #endif
+
     updateData(prop);
+
+    #ifdef SHOWHIDE
     if (vis) {
         ViewProvider::show();
     }
+    #endif
+    
+    auto t1 = std::chrono::high_resolution_clock::now();
+
+    auto time_ns = duration_cast<std::chrono::nanoseconds>(t1 - t0);
+    FC_WARN("Time: " << time_ns << "\n");
 }
 
 QIcon ViewProvider::getIcon() const
