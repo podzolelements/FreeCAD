@@ -337,18 +337,11 @@ SoSeparator* ViewProvider::getOrCreateAnnotation()
 
 void ViewProvider::update(const App::Property* prop)
 {
-    // Hide the object temporarily to speed up the update
     if (!isUpdatesEnabled()) {
         return;
     }
-    bool vis = ViewProvider::isShow();
-    if (vis) {
-        ViewProvider::hide();
-    }
+
     updateData(prop);
-    if (vis) {
-        ViewProvider::show();
-    }
 }
 
 QIcon ViewProvider::getIcon() const
